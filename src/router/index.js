@@ -46,13 +46,6 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
-    }]
   },
 
   {
@@ -76,86 +69,76 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
-    path: '/form',
+    path: '/teacher',
     component: Layout,
+    name: 'teacherManage',
     children: [
       {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/teacher/list'),
+        meta: { title: '教师管理 ', icon: 'table' }
       }
     ]
   },
-
   {
-    path: '/nested',
+    path: '/student',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
+    name: 'studentManage',
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/student/list'),
+        meta: { title: '学生管理 ', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/course',
+    component: Layout,
+    name: 'courseManage',
+    children: [
+      {
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/course/list'),
+        meta: { title: '课程管理 ', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/dict',
+    component: Layout,
+    name: 'courseManage',
+    redirect: '/list',
+    children: [
+      {
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/dict/list'),
+        meta: { title: '字典管理 ', icon: 'table' }
       },
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
+        path: 'list',
+        name: 'List',
+        hidden: true,
+        component: () => import('@/views/dict/data'),
+        meta: { title: '课程管理 ', icon: 'table' }
       }
     ]
   },
-
   {
-    path: 'external-link',
+    path: '/log',
     component: Layout,
+    name: 'log',
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/log/list'),
+        meta: { title: '查看日志 ', icon: 'table' }
       }
     ]
   },
