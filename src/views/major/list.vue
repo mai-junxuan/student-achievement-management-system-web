@@ -2,13 +2,12 @@
   <div class="app-container">
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="searchObj.keyword" placeholder="姓名/工号"/>
+        <el-input v-model="searchObj.keyword" placeholder="专业编号"/>
       </el-form-item>
-
       <el-form-item>
-        <el-select v-model="searchObj.majorId" placeholder="学院" class="v-select patient-select">
+        <el-select v-model="searchObj.collegeId" placeholder="学院" class="v-select patient-select">
           <el-option
-            v-for="item in colegeList"
+            v-for="item in majorList"
             :key="item.status"
             :label="item.comment"
             :value="item.status"
@@ -19,9 +18,10 @@
       <el-button type="default" @click="resetData()">清空</el-button>
     </el-form>
 
+    <!--列表-->
     <el-table
       v-loading="listLoading"
-      :data="studentList"
+      :data="majorList"
       border
       fit
       highlight-current-row
@@ -35,13 +35,10 @@
           {{ (page - 1) * limit + scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column prop="studentId" label="工号" width="160" />
-      <el-table-column prop="name" label="姓名" width="160" />
-      <el-table-column prop="college" label="所属学院" width="160" />
-      <el-table-column prop="gender" label="性别" />
-      <el-table-column prop="birth" label="生日" />
-      <el-table-column prop="remark" label="备注" width="80" />
-      <el-table-column label="操作" width="100" align="center">
+      <el-table-column prop="studentId" label="专业编号" width="160"/>
+      <el-table-column prop="name" label="专业班级" width="160"/>
+      <el-table-column prop="college" label="学院" width="160"/>
+      <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="lock(scope.row.id, 0)">修改信息</el-button>
           <el-button type="danger" size="mini" @click="lock(scope.row.id, 1)">删除</el-button>
@@ -68,11 +65,10 @@ export default {
   data() {
     return {
       searchObj: {},
-      colegeList: [],
+      majorList: [],
       page: 1,
       total: 0,
       size: 20,
-      studentList:[],
       listLoading: true
     }
   },

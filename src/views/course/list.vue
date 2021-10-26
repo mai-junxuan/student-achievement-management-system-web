@@ -5,22 +5,22 @@
         <el-input v-model="searchObj.keyword" placeholder="课程名/课程号"/>
       </el-form-item>
       <el-form-item>
-        <el-select v-model="searchObj.collegeId" placeholder="所属学院" class="v-select patient-select">
+        <el-select v-model="searchObj.collegeId" placeholder="所属学院" class="v-select patient-select" @click="getCollege">
           <el-option
             v-for="item in collegeList"
-            :key="item.status"
-            :label="item.comment"
-            :value="item.status"
+            :key="item.collegeId"
+            :label="item.name"
+            :value="item.collegeId"
           />
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-select v-model="searchObj.type" placeholder="类型" class="v-select patient-select">
+        <el-select v-model="searchObj.type" placeholder="类型" class="v-select patient-select" @click="getType">
           <el-option
             v-for="item in typeList"
-            :key="item.status"
-            :label="item.comment"
-            :value="item.status"
+            :key="item.typeId"
+            :label="item.name"
+            :value="item.typeId"
           />
         </el-select>
       </el-form-item>
@@ -45,23 +45,23 @@
           {{ (page - 1) * limit + scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column prop="courseId" label="课程号" width="160" />
-      <el-table-column prop="name" label="课程名" width="160" />
-      <el-table-column prop="college" label="所属学院" width="160" />
-      <el-table-column prop="type" label="类型" />
-      <el-table-column prop="theoreticalHours" label="理论学时" />
-      <el-table-column prop="practicalHours" label="实践学时" width="80" />
-      <el-table-column prop="credit" label="学分" width="70" />
+      <el-table-column prop="courseId" label="课程号" width="160"/>
+      <el-table-column prop="name" label="课程名" width="160"/>
+      <el-table-column prop="college" label="所属学院" width="160"/>
+      <el-table-column prop="type" label="类型"/>
+      <el-table-column prop="theoreticalHours" label="理论学时"/>
+      <el-table-column prop="practicalHours" label="实践学时" width="80"/>
+      <el-table-column prop="credit" label="学分" width="70"/>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="lock(scope.row.id, 0)">修改信息</el-button>
-          <el-button type="danger" size="mini" @click="lock(scope.row.id, 1)">删除</el-button>
+          <el-button type="danger" size="mini" @click="deleteCourse(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页组件 -->
     <el-pagination
-      :current-page="page"
+      :current-page="current"
       :total="total"
       :page-size="limit"
       :page-sizes="[5, 10, 20, 30, 40, 50, 100]"
@@ -75,6 +75,9 @@
 </template>
 
 <script>
+import * as courseApi from "@/api/course" ;
+import {getCollegeList} from '@/api/college'
+
 export default {
   data() {
     return {
@@ -82,14 +85,45 @@ export default {
       majorList: [],
       courseList: [],
       typeList: [],
-      collegeList:[],
-      page: 1,
+      collegeList: [],
+      current: 1,
       total: 0,
       size: 20,
       listLoading: true
     }
   },
   created() {
+
+  },
+  methods: {
+    init() {
+      this.fetchData(current, size, searchObj)
+    },
+    fetchData(current, size, queryObj) {
+      this.listLoading = true
+      courseApi.getCoursePage(current, size, queryObj).then((response) => {
+        this.courseList = response.data;
+        this.total = response.data.total;
+        this.listLoading = false
+      })
+    },
+    getType() {
+      courseApi.getTypeList().then((response) => {
+        this.typeList = response.data;
+      })
+    },
+    getCollege() {
+      getCollegeList().then((response) => {
+        this.collegeList = response.data;
+      })
+    },
+    deleteCourse(id) {
+      this.$confirm("确认删除").then(() => {
+        courseApi.deleteById(id).then(() => {
+          this.$message("删除成功")
+        })
+      })
+    },
 
   }
 }

@@ -2,6 +2,14 @@ import request from '@/utils/request'
 
 const BASE_URL ="/student"
 
+export function getById(id) {
+  return request({
+    url: `${BASE_URL}/${id}`,
+    method: 'GET'
+  })
+}
+
+
 export function deleteById(id) {
   return request({
     url: `${BASE_URL}/${id}`,
@@ -9,7 +17,7 @@ export function deleteById(id) {
   })
 }
 
-export function getstudentPage(current,size,queryVo) {
+export function getStudentPage(current,size,queryVo) {
   return request({
     url: `${BASE_URL}/page/${current}/${size}`,
     methods: 'post',
@@ -30,12 +38,5 @@ export function save(student) {
     url: `${BASE_URL}/save`,
     methods: 'post',
     data: student
-  })
-}
-
-export function getById(id) {
-  return request({
-    url: `${BASE_URL}/getByid/${id}`,
-    methods: 'get'
   })
 }

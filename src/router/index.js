@@ -70,14 +70,14 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/teacher',
+    path: '/student',
     component: Layout,
-    name: 'teacherManage',
+    name: 'studentManage',
     children: [
       {
         path: 'list',
         name: 'List',
-        component: () => import('@/views/teacher/list'),
+        component: () => import('@/views/student/list'),
         meta: { title: '教师管理 ', icon: 'table' }
       }
     ]
@@ -109,36 +109,15 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/dict',
+    path: '/major',
     component: Layout,
-    name: 'courseManage',
-    redirect: '/list',
+    name: 'majorManage',
     children: [
       {
         path: 'list',
         name: 'List',
-        component: () => import('@/views/dict/list'),
-        meta: { title: '字典管理 ', icon: 'table' }
-      },
-      {
-        path: 'list',
-        name: 'List',
-        hidden: true,
-        component: () => import('@/views/dict/data'),
-        meta: { title: '课程管理 ', icon: 'table' }
-      }
-    ]
-  },
-  {
-    path: '/log',
-    component: Layout,
-    name: 'log',
-    children: [
-      {
-        path: 'list',
-        name: 'List',
-        component: () => import('@/views/log/list'),
-        meta: { title: '查看日志 ', icon: 'table' }
+        component: () => import('@/views/major/list'),
+        meta: { title: '专业管理 ', icon: 'table' }
       }
     ]
   },
