@@ -28,7 +28,7 @@
       </el-form-item>
       <el-button type="primary" icon="el-icon-search" @click="getPage">查询</el-button>
       <el-button type="default" @click="resetData">清空</el-button>
-      <el-button type="success" @click="loadDialog">新增</el-button>
+      <el-button type="default" @click="resetData">导出</el-button>
     </el-form>
 
 
@@ -56,7 +56,7 @@
       <el-table-column prop="practicalHours" label="实践学时" width="80"/>
       <el-table-column prop="regularRatio" label="平时成绩比例" width="80"/>
       <el-table-column prop="endtermRatio" label="期末成绩比例" width="80"/>
-      <el-table-column prop="endtermRatio" label="任课老师" width="80">
+      <el-table-column  label="任课老师" width="80">
         <template slot-scope="scope">
           <p v-for="(teacher) in scope.row.teachers">{{teacher.name}}</p>
         </template>
@@ -65,8 +65,10 @@
       <el-table-column prop="credit" label="学分" width="70"/>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
+          <router-link :to="'/myCourse/data/' + scope.row.courseId">
+            <el-button type="primary" size="mini">查看学生</el-button>
+          </router-link>
           <el-button type="primary" size="mini" @click="updateCourser(scope.row.courseId)">修改信息</el-button>
-          <el-button type="danger" size="mini" @click="deleteCourse(scope.row.courseId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -86,11 +88,11 @@
     <el-dialog title="课程信息" :visible.sync="dialogVisible">
       <el-form ref="elForm" :model="courseInfo" size="medium" label-width="100px">
         <el-form-item label="课程编号" prop="student_id">
-          <el-input v-model="courseInfo.courseId" placeholder="请输入课程编号" clearable :style="{width: '100%'}">
+          <el-input v-model="courseInfo.courseId" placeholder="请输入课程编号"  :style="{width: '100%'}" disabled>
           </el-input>
         </el-form-item>
         <el-form-item label="课程名" prop="name">
-          <el-input v-model="courseInfo.name" placeholder="请输入课程名" clearable :style="{width: '100%'}"></el-input>
+          <el-input v-model="courseInfo.name"  :style="{width: '100%'}" disabled></el-input>
         </el-form-item>
         <el-form-item label="学院" prop="major">
           <el-select clearable v-model="courseInfo.collegeId" placeholder="所属学院" class="v-select patient-select">
@@ -103,34 +105,26 @@
           </el-select>
         </el-form-item>
         <el-form-item label="课程类型" prop="gender">
-          <el-select clearable v-model="courseInfo.type" placeholder="类型" class="v-select patient-select"
-                     @click.native="getType">
-            <el-option
-              v-for="item in typeList"
-              :key="item.typeId"
-              :label="item.name"
-              :value="item.typeId"
-            />
-          </el-select>
+          <el-input v-model="courseInfo.type"  :style="{width: '100%'}" disabled></el-input>
         </el-form-item>
         <el-form-item label="理论学时" prop="birth">
-          <el-input v-model="courseInfo.theoreticalHours" placeholder="请输入理论学时" clearable
-                    :style="{width: '100%'}"></el-input>
+          <el-input v-model="courseInfo.theoreticalHours"
+                    :style="{width: '100%'}" disabled></el-input>
         </el-form-item>
         <el-form-item label="理论学时" prop="birth">
-          <el-input v-model="courseInfo.practicalHours" placeholder="请输入实践学时" clearable
-                    :style="{width: '100%'}"></el-input>
+          <el-input v-model="courseInfo.practicalHours"
+                    :style="{width: '100%'}" disabled></el-input>
         </el-form-item>
         <el-form-item label="学分" prop="birth">
-          <el-input v-model="courseInfo.credit" placeholder="请输入学分" clearable :style="{width: '100%'}"></el-input>
+          <el-input v-model="courseInfo.credit"  :style="{width: '100%'}" disabled></el-input>
         </el-form-item>
-        <el-form-item label="平时成绩比例(%)" prop="regularRatio">
-          <el-input placeholder="请输入内容" v-model="courseInfo.regularRatio" @input="calculateRatio">
+        <el-form-item label="平时成绩比例" prop="regularRatio">
+          <el-input v-model="courseInfo.regularRatio" @input="calculateRatio">
             <template slot="append">%</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="期末成绩比例(%)" prop="endtermRatio">
-          <el-input v-model="courseInfo.endtermRatio" disabled>
+        <el-form-item label="期末成绩比例" prop="endtermRatio" >
+          <el-input  v-model="courseInfo.endtermRatio">
             <template slot="append">%</template>
           </el-input>
         </el-form-item>
@@ -138,13 +132,13 @@
           <el-cascader
             v-model="courseInfo.teacherLists"
             :options="teacherGroupList"
-            :props="props"></el-cascader>
+            :props="props" disabled></el-cascader>
         </el-form-item>
         <el-form-item label="管理老师" >
           <el-cascader
             v-model="courseInfo.managerTeacherName"
             :options="teacherGroupList"
-            :props="props2"></el-cascader>
+            :props="props2" disabled></el-cascader>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -164,8 +158,8 @@ import {group} from "@/api/teacher";
 export default {
   data() {
     return {
-      props: {multiple: true, value: 'teacherId', label: 'name', children: 'teachers',  expandTrigger: 'hover',emitPath: false},
-      props2: {value: 'teacherId', label: 'name', children: 'teachers', expandTrigger: 'hover', emitPath: false},
+      props: { multiple: true, value: 'teacherId', label: 'name',children: 'teachers',emitPath: false},
+      props2: {  value: 'teacherId', label: 'name',children: 'teachers',emitPath: false},
       searchObj: {},
       majorList: [],
       courseList: [],
@@ -176,25 +170,24 @@ export default {
       size: 20,
       listLoading: true,
       dialogVisible: false,
-      courseInfo: {
-      },
-      teacherGroupList: []
+      courseInfo: {},
+      teacherGroupList: {}
     }
   },
   created() {
     this.getPage()
+
   },
   methods: {
     getPage() {
       this.current = 1
       this.searchObj = {}
-      this.fetchData(this.current, this.size, this.searchObj)
+      this.fetchData(this.$store.state.user.teacherId)
     },
-    fetchData(current, size, queryObj) {
+    fetchData(teacherId) {
       this.listLoading = true
-      courseApi.getCoursePage(current, size, queryObj).then((response) => {
-        this.courseList = response.data.records;
-        this.total = response.data.total;
+      courseApi.getByTeacherId(teacherId).then((response) => {
+        this.courseList = response.data;
         this.listLoading = false
       })
     },
@@ -220,9 +213,13 @@ export default {
       this.searchObj = {}
     },
     loadDialog() {
+      this.getCollege()
+      this.getGroup()
       this.dialogVisible = true
     },
     saveCourse() {
+      console.log(this.courseInfo)
+
       courseApi.saveOrUpdate(this.courseInfo).then(() => {
         this.$message({
           type: "success",
@@ -246,14 +243,15 @@ export default {
         this.dialogVisible = true
       })
     },
-    calculateRatio() {
-      this.courseInfo.endtermRatio = 100 - this.courseInfo.regularRatio
+    calculateRatio(){
+      this.courseInfo.endtermRatio=100-this.courseInfo.regularRatio
     },
     getGroup() {
       group().then(response => {
-        this.teacherGroupList = response.data
+        this.teacherGroupList=response.data
       })
-    }
+    },
+
   }
 }
 </script>

@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import studentData from "@/views/course/studentData";
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -47,25 +48,16 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
   },
-
   {
-    path: '/example',
+    path: '/teacher',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    name: 'teacherManage',
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/teacher/list'),
+        meta: {title: '教师管理 ', icon: 'table'}
       }
     ]
   },
@@ -78,20 +70,7 @@ export const constantRoutes = [
         path: 'list',
         name: 'List',
         component: () => import('@/views/student/list'),
-        meta: { title: '教师管理 ', icon: 'table' }
-      }
-    ]
-  },
-  {
-    path: '/student',
-    component: Layout,
-    name: 'studentManage',
-    children: [
-      {
-        path: 'list',
-        name: 'List',
-        component: () => import('@/views/student/list'),
-        meta: { title: '学生管理 ', icon: 'table' }
+        meta: {title: '学生管理 ', icon: 'table'}
       }
     ]
   },
@@ -104,8 +83,9 @@ export const constantRoutes = [
         path: 'list',
         name: 'List',
         component: () => import('@/views/course/list'),
-        meta: { title: '课程管理 ', icon: 'table' }
-      }
+        meta: {title: '课程管理 ', icon: 'table'}
+      },
+
     ]
   },
   {
@@ -117,18 +97,59 @@ export const constantRoutes = [
         path: 'list',
         name: 'List',
         component: () => import('@/views/major/list'),
-        meta: { title: '专业管理 ', icon: 'table' }
+        meta: {title: '专业管理 ', icon: 'table'}
       }
     ]
   },
-
+  {
+    path: '/myCourse',
+    component: Layout,
+    name: 'majorManage',
+    children: [
+      {
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/course/myCourse'),
+        meta: {title: '我的课程 ', icon: 'table'},
+      },
+      {
+        path: 'data/:courseId',
+        name: 'Data',
+        component: () => import('@/views/course/studentData'),
+        meta: {title: '课程学生 ', noCache: true},
+        hidden: true,
+      }
+    ]
+  },
+  {
+    path: '/dict',
+    component: Layout,
+    name: 'majorManage',
+    redirect: '/dict/list',
+    meta: {title: '字典管理', icon: 'el-icon-s-help'},
+    children: [
+      {
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/dict/list'),
+        meta: {title: '字典管理 ', icon: 'table'}
+      },
+      {
+        path: 'data',
+        name: '具体数据',
+        hidden: true,
+        component: () => import('@/views/dict/list'),
+        meta: {title: '数据 ', icon: 'table'}
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  {path: '*', redirect: '/404', hidden: true}
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: constantRoutes
 })
 
