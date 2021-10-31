@@ -12,7 +12,7 @@
             :props="{ expandTrigger: 'hover' }"></el-cascader>
         </el-form-item>
       </el-form-item>
-      <el-button type="success" @click="loadDialog2">新增</el-button>
+      <el-button type="success" @click="loadDialog2" v-if="this.$store.state.roles[0]==='ADMIN'">新增</el-button>
       <el-button type="primary" icon="el-icon-search" @click="getPage">查询</el-button>
       <el-button type="default" @click="resetData">清空</el-button>
       <el-button type="default" @click="exportExcel">导出</el-button>

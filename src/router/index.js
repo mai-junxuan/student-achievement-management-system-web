@@ -47,17 +47,40 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
+    redirect: '/dashboard',
+    children: [{
+      path: 'dashboard',
+      name: 'Dashboard',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: '首页', icon: 'dashboard' }
+    }]
   },
+  {
+    path: '/',
+    name: 'StudentData',
+    component: Layout,
+    children: [{
+      path: 'studentData/:courseId',
+      component: () => import('@/views/course/studentData'),
+      meta: {title: '课程学生 ', noCache: true},
+      hidden: true
+    }],
+  },
+  // 404 page must be placed at the end !!!
+  {path: '*', redirect: '/404', hidden: true}
+]
+export const asyncRoutes = [
   {
     path: '/teacher',
     component: Layout,
     name: 'teacherManage',
+    meta: {title: '教师管理 ', icon: 'teacher', roles: ['ADMIN']},
     children: [
       {
         path: 'list',
-        name: 'List',
+        name: 'teacherList',
         component: () => import('@/views/teacher/list'),
-        meta: {title: '教师管理 ', icon: 'table'}
+        meta: {title: '教师管理 ', icon: 'teacher', roles: ['ADMIN']}
       }
     ]
   },
@@ -65,12 +88,13 @@ export const constantRoutes = [
     path: '/student',
     component: Layout,
     name: 'studentManage',
+    meta: {title: '学生管理 ', icon: 'student', roles: ['ADMIN']},
     children: [
       {
         path: 'list',
-        name: 'List',
+        name: 'studentList',
         component: () => import('@/views/student/list'),
-        meta: {title: '学生管理 ', icon: 'table'}
+        meta: {title: '学生管理 ', icon: 'student', roles: ['ADMIN']}
       }
     ]
   },
@@ -78,12 +102,13 @@ export const constantRoutes = [
     path: '/course',
     component: Layout,
     name: 'courseManage',
+    meta: {title: '课程管理 ', icon: 'course', roles: ['ADMIN']},
     children: [
       {
         path: 'list',
-        name: 'List',
+        name: 'courseList',
         component: () => import('@/views/course/list'),
-        meta: {title: '课程管理 ', icon: 'table'}
+        meta: {title: '课程管理 ', icon: 'course', roles: ['ADMIN']}
       },
 
     ]
@@ -92,12 +117,13 @@ export const constantRoutes = [
     path: '/major',
     component: Layout,
     name: 'majorManage',
+    meta: {title: '专业管理 ', icon: 'major', roles: ['ADMIN']},
     children: [
       {
         path: 'list',
-        name: 'List',
+        name: 'majorList',
         component: () => import('@/views/major/list'),
-        meta: {title: '专业管理 ', icon: 'table'}
+        meta: {title: '专业管理', icon: 'major', roles: ['ADMIN']}
       }
     ]
   },
@@ -105,48 +131,19 @@ export const constantRoutes = [
     path: '/myCourse',
     component: Layout,
     name: 'majorManage',
+    meta: {title: '我的课程', icon: 'course',roles: ['TEACHER']},
     children: [
       {
         path: 'list',
         name: 'List',
         component: () => import('@/views/course/myCourse'),
-        meta: {title: '我的课程 ', icon: 'table'},
+        meta: {title: '课程列表', icon: 'course', roles: ['TEACHER']},
       },
-      {
-        path: 'data/:courseId',
-        name: 'Data',
-        component: () => import('@/views/course/studentData'),
-        meta: {title: '课程学生 ', noCache: true},
-        hidden: true,
-      }
-    ]
-  },
-  {
-    path: '/dict',
-    component: Layout,
-    name: 'majorManage',
-    redirect: '/dict/list',
-    meta: {title: '字典管理', icon: 'el-icon-s-help'},
-    children: [
-      {
-        path: 'list',
-        name: 'List',
-        component: () => import('@/views/dict/list'),
-        meta: {title: '字典管理 ', icon: 'table'}
-      },
-      {
-        path: 'data',
-        name: '具体数据',
-        hidden: true,
-        component: () => import('@/views/dict/list'),
-        meta: {title: '数据 ', icon: 'table'}
-      }
-    ]
-  },
-  // 404 page must be placed at the end !!!
-  {path: '*', redirect: '/404', hidden: true}
-]
 
+
+    ]
+  }
+]
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({y: 0}),

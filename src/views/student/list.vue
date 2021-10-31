@@ -34,11 +34,11 @@
           {{ (current - 1) * size + scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column prop="studentId" label="学号" width="160"/>
-      <el-table-column prop="name" label="姓名" width="160"/>
-      <el-table-column prop="college" label="学院" width="160"/>
-      <el-table-column prop="major" label="专业"/>
-      <el-table-column prop="gender" label="性别" width="100">
+      <el-table-column prop="studentId" label="学号" width="160" align="center"/>
+      <el-table-column prop="name" label="姓名" width="160" align="center"/>
+      <el-table-column prop="college" label="学院" width="160" align="center"/>
+      <el-table-column prop="major" label="专业" align="center"/>
+      <el-table-column prop="gender" label="性别" width="100" align="center">
         <template slot-scope="scope">
           <el-tag size="medium"
                   :type="scope.row.gender === 1 ? 'primary' : 'danger'"
@@ -47,8 +47,8 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="birth" label="生日" width="130"/>
-      <el-table-column prop="remark" label="备注" width="130"/>
+      <el-table-column prop="birth" label="生日" width="130" align="center"/>
+      <el-table-column prop="remark" label="备注" width="130" align="center"/>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="updateStudent(scope.row.studentId)">修改信息</el-button>

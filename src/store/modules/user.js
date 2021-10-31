@@ -7,7 +7,8 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
-    teacherId: undefined
+    teacherId: undefined,
+    roles: []
   }
 }
 
@@ -25,9 +26,6 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
   }
 }
 
@@ -40,8 +38,8 @@ const actions = {
     const uuid = userInfo.uuid
     return new Promise((resolve, reject) => {
       login({teacherId, password, code, uuid}).then(res => {
-        setToken(res.data)
         commit('SET_TOKEN', res.data)
+        setToken(res.data)
         resolve()
       }).catch(error => {
         reject(error)
@@ -58,7 +56,7 @@ const actions = {
         }
         commit('SET_TEACHER_ID', response.data.teacherId)
         commit('SET_NAME', response.data.name)
-        commit('SET_ROLES', response.data.role)
+        commit('SET_ROLES', response.data.roles)
         resolve(response.data)
       }).catch(error => {
         reject(error)
@@ -70,6 +68,8 @@ const actions = {
   logout({commit, state}) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
+        commit('SET_TOKEN', '')
+        commit('SET_ROLES', [])
         removeToken() // must remove  token  first
         resetRouter()
         commit('RESET_STATE')
@@ -84,7 +84,8 @@ const actions = {
   resetToken({commit}) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
-      commit('RESET_STATE')
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
       resolve()
     })
   }

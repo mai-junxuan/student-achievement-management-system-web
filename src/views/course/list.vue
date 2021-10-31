@@ -65,7 +65,7 @@
       <el-table-column prop="credit" label="学分" width="70"/>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/myCourse/data/' + scope.row.courseId">
+          <router-link :to="'/studentData/' + scope.row.courseId">
             <el-button type="primary" size="mini">查看学生</el-button>
           </router-link>
           <el-button type="primary" size="mini" @click="updateCourser(scope.row.courseId)">修改信息</el-button>

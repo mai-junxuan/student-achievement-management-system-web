@@ -40,7 +40,7 @@
       <el-table-column prop="teacherId" label="工号" width="160" align="center"/>
       <el-table-column prop="name" label="姓名" width="160" align="center"/>
       <el-table-column prop="collegeName" label="所属学院" width="160" align="center"/>
-      <el-table-column prop="gender" label="性别" width="100">
+      <el-table-column prop="gender" label="性别" width="100" align="center">
         <template slot-scope="scope">
           <el-tag size="medium"
                   :type="scope.row.gender === 1 ? 'primary' : 'danger'"
