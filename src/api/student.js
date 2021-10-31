@@ -39,4 +39,9 @@ export function getByCourse(id) {
     method: 'get',
   })
 }
-
+export function getCascade(){
+  return request({
+    url: `${BASE_URL}/getCascade`,
+    method: 'get',
+  })
+}

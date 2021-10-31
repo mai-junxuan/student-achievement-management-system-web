@@ -51,7 +51,7 @@
       <el-table-column prop="courseId" label="课程号" width="160"/>
       <el-table-column prop="name" label="课程名" width="160"/>
       <el-table-column prop="collegeName" label="所属学院" width="160"/>
-      <el-table-column prop="type" label="类型"/>
+      <el-table-column prop="typeName" label="类型"/>
       <el-table-column prop="theoreticalHours" label="理论学时"/>
       <el-table-column prop="practicalHours" label="实践学时" width="80"/>
       <el-table-column prop="regularRatio" label="平时成绩比例" width="80"/>

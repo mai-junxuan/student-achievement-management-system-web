@@ -40,7 +40,15 @@
       <el-table-column prop="teacherId" label="工号" width="160" align="center"/>
       <el-table-column prop="name" label="姓名" width="160" align="center"/>
       <el-table-column prop="collegeName" label="所属学院" width="160" align="center"/>
-      <el-table-column prop="gender" label="性别" width="80" align="center"/>
+      <el-table-column prop="gender" label="性别" width="100">
+        <template slot-scope="scope">
+          <el-tag size="medium"
+                  :type="scope.row.gender === 1 ? 'primary' : 'danger'"
+                  slot="content">
+            {{ scope.row.gender === 1 ? '男' : '女' }}
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="birth" label="生日" width="140" align="center"/>
       <el-table-column prop="remark" label="备注" width="80" align="center"/>
       <el-table-column label="操作" width="150" align="center">

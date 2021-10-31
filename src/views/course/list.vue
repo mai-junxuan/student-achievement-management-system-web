@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item>
         <el-select clearable v-model="searchObj.type" placeholder="类型" class="v-select patient-select"
-                   @click.native="getType">
+                   >
           <el-option
             v-for="item in typeList"
             :key="item.typeId"
@@ -51,7 +51,7 @@
       <el-table-column prop="courseId" label="课程号" width="160"/>
       <el-table-column prop="name" label="课程名" width="160"/>
       <el-table-column prop="collegeName" label="所属学院" width="160"/>
-      <el-table-column prop="type" label="类型"/>
+      <el-table-column prop="typeName" label="类型"/>
       <el-table-column prop="theoreticalHours" label="理论学时"/>
       <el-table-column prop="practicalHours" label="实践学时" width="80"/>
       <el-table-column prop="regularRatio" label="平时成绩比例" width="80"/>
@@ -65,6 +65,9 @@
       <el-table-column prop="credit" label="学分" width="70"/>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
+          <router-link :to="'/myCourse/data/' + scope.row.courseId">
+            <el-button type="primary" size="mini">查看学生</el-button>
+          </router-link>
           <el-button type="primary" size="mini" @click="updateCourser(scope.row.courseId)">修改信息</el-button>
           <el-button type="danger" size="mini" @click="deleteCourse(scope.row.courseId)">删除</el-button>
         </template>
@@ -103,8 +106,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="课程类型" prop="gender">
-          <el-select clearable v-model="courseInfo.type" placeholder="类型" class="v-select patient-select"
-                     @click.native="getType">
+          <el-select clearable v-model="courseInfo.typeId" placeholder="类型" class="v-select patient-select">
             <el-option
               v-for="item in typeList"
               :key="item.typeId"
@@ -223,6 +225,16 @@ export default {
       this.dialogVisible = true
     },
     saveCourse() {
+      this.courseInfo.managerTeacher={teacherId: this.courseInfo.managerTeacherName[1]||this.courseInfo.managerTeacherName}
+      delete this.courseInfo.managerTeacherName
+      this.courseInfo.teachers=[]
+      for (let i = 0; i < this.courseInfo.teacherLists.length; i++) {
+        let teacher={}
+        teacher.teacherId=this.courseInfo.teacherLists[i]
+        this.courseInfo.teachers.push(teacher)
+      }
+      delete this.courseInfo.teacherLists
+      console.log(this.courseInfo)
       courseApi.saveOrUpdate(this.courseInfo).then(() => {
         this.$message({
           type: "success",
@@ -236,6 +248,7 @@ export default {
     updateCourser(id) {
       this.getCollege()
       this.getGroup()
+      this.getType()
       courseApi.getById(id).then((response) => {
         this.courseInfo = response.data;
         this.courseInfo.managerTeacherName=[this.courseInfo.managerTeacher.collegeId,this.courseInfo.managerTeacher.teacherId]

@@ -57,7 +57,7 @@ export function getByTeacherId(id) {
 
 export function back(courseId,studentId) {
   return request({
-    url: `${BASE_URL}//backCourse/${courseId}/${studentId}`,
+    url: `${BASE_URL}/backCourse/${courseId}/${studentId}`,
     method: 'delete'
   })
 }
