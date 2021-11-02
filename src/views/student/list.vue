@@ -2,15 +2,13 @@
   <div class="app-container">
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="searchObj.keyword" placeholder="姓名/学号/备注"/>
+        <el-input v-model="searchObj.keyword" placeholder="关键词"/>
       </el-form-item>
-      <el-form-item>
-        <el-form-item label="专业班级" prop="major">
-          <el-cascader
-            v-model="studentInfo.majorId"
-            :options="majorList"
-            :props="{ expandTrigger: 'hover' }"></el-cascader>
-        </el-form-item>
+      <el-form-item label="专业班级" prop="major">
+        <el-cascader
+          v-model="major"
+          :options="majorList"
+          :props="{ label: 'name',expandTrigger: 'hover' }"></el-cascader>
       </el-form-item>
       <el-button type="primary" icon="el-icon-search" @click="getPage">查询</el-button>
       <el-button type="default" @click="resetData">清空</el-button>
@@ -37,7 +35,7 @@
       <el-table-column prop="studentId" label="学号" width="160" align="center"/>
       <el-table-column prop="name" label="姓名" width="160" align="center"/>
       <el-table-column prop="college" label="学院" width="160" align="center"/>
-      <el-table-column prop="major" label="专业" align="center"/>
+      <el-table-column prop="major" label="专业" align="center" width="160"/>
       <el-table-column prop="gender" label="性别" width="100" align="center">
         <template slot-scope="scope">
           <el-tag size="medium"
@@ -77,7 +75,7 @@
         <el-form-item label="姓名" prop="name">
           <el-input v-model="studentInfo.name" placeholder="请输入姓名" clearable :style="{width: '100%'}"></el-input>
         </el-form-item>
-        <el-form-item label="专业班级" prop="major" >
+        <el-form-item label="专业班级" prop="major">
           <el-cascader
             v-model="studentInfo.majorId"
             :options="majorList"
@@ -121,7 +119,8 @@ export default {
       size: 20,
       listLoading: true,
       dialogVisible: false,
-      studentInfo: {}
+      studentInfo: {},
+      major: []
     }
   },
   created() {
@@ -131,7 +130,9 @@ export default {
   methods: {
     getPage() {
       this.current = 1
-      this.searchObj = {}
+      if (this.major!=null){
+        this.searchObj.majorId=this.major[1]
+      }
       this.fetchData(this.current, this.size, this.searchObj)
     },
     fetchData(current, size, queryObj) {

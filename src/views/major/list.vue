@@ -112,7 +112,6 @@ export default {
   methods: {
     getPage() {
       this.current = 1
-      this.searchObj = {}
       this.fetchData(this.current, this.size, this.searchObj)
 
     },

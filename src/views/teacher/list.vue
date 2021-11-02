@@ -38,7 +38,16 @@
         </template>
       </el-table-column>
       <el-table-column prop="teacherId" label="工号" width="160" align="center"/>
-      <el-table-column prop="name" label="姓名" width="160" align="center"/>
+      <el-table-column prop="name" label="姓名" width="160" align="center">
+
+        <template slot-scope="scope">
+          {{ scope.row.name }}
+          <el-tag size="medium"
+                  v-if="scope.row.teacherId===$store.state.user.teacherId"
+                  slot="content">我
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="collegeName" label="所属学院" width="160" align="center"/>
       <el-table-column prop="gender" label="性别" width="100" align="center">
         <template slot-scope="scope">
@@ -50,6 +59,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="birth" label="生日" width="140" align="center"/>
+      <el-table-column prop="phone" label="手机号" width="140" align="center"/>
+      <el-table-column prop="email" label="邮箱" width="140" align="center"/>
       <el-table-column prop="remark" label="备注" width="80" align="center"/>
       <el-table-column label="操作" width="150" align="center">
         <template slot-scope="scope">
@@ -142,7 +153,6 @@ export default {
   methods: {
     getPage() {
       this.current = 1
-      this.searchObj = {}
       this.fetchData(this.current, this.size, this.searchObj)
     },
     fetchData(current, size, queryObj) {
@@ -186,7 +196,7 @@ export default {
         this.getPage()
       })
     },
-    updateTeacher(id){
+    updateTeacher(id) {
       teacherApi.getById(id).then((response) => {
         this.teacherInfo = response.data;
         this.dialogVisible = true

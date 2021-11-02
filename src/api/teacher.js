@@ -17,11 +17,11 @@ export function getTeacherPage(current, size, queryVo) {
   })
 }
 
-export function saveOrUpdate(student) {
+export function saveOrUpdate(teacher) {
   return request({
     url: `${BASE_URL}/saveOrUpdate`,
     method: 'post',
-    data: student
+    data: teacher
   })
 }
 

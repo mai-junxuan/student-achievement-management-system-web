@@ -25,3 +25,10 @@ export function logout() {
   })
 }
 
+export function changePassword(teacherId,oldPassword,newPassword) {
+  return request({
+    url: `${BASE_URL}/changePassword`,
+    method: 'put',
+    params: {teacherId,oldPassword,newPassword}
+  })
+}

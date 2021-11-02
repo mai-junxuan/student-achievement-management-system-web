@@ -1,21 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :inline="true" class="demo-form-inline">
-      <el-form-item>
-        <el-input v-model="searchObj.keyword" placeholder="姓名/学号/备注"/>
-      </el-form-item>
-      <el-form-item>
-        <el-form-item label="专业班级" prop="major">
-          <el-cascader
-            v-model="studentInfo.majorId"
-            :options="majorList"
-            :props="{ expandTrigger: 'hover' }"></el-cascader>
-        </el-form-item>
-      </el-form-item>
-      <el-button type="success" @click="loadDialog2" v-if="this.$store.state.roles[0]==='ADMIN'">新增</el-button>
-      <el-button type="primary" icon="el-icon-search" @click="getPage">查询</el-button>
-      <el-button type="default" @click="resetData">清空</el-button>
       <el-button type="default" @click="exportExcel">导出</el-button>
+      <el-button type="success" @click="loadDialog2" v-if="$store.state.user.roles[0] === 'ADMIN'">添加学生</el-button>
     </el-form>
     <!--列表-->
     <el-table
@@ -37,7 +24,7 @@
       <el-table-column prop="studentId" label="学号" width="160"/>
       <el-table-column prop="name" label="姓名" width="160"/>
       <el-table-column prop="college" label="学院" width="160"/>
-      <el-table-column prop="major" label="专业"/>
+      <el-table-column prop="major" label="专业" width="100"/>
       <el-table-column prop="gender" label="性别" width="100">
         <template slot-scope="scope">
           <el-tag size="medium"
@@ -53,7 +40,7 @@
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
           <el-button  type="primary" size="mini" @click="loadDialog(scope.row)">输入成绩</el-button>
-          <el-button type="danger" size="mini" @click="backCourse(this.courseId,scope.row.studentId)">退课</el-button>
+          <el-button type="danger" size="mini" @click="backCourse(courseId,scope.row.studentId)">退课</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -130,6 +117,9 @@ export default {
     this.getPage()
     this.getStudentCascade()
   },
+  mounted() {
+
+  },
   methods: {
     getPage() {
       this.current = 1
@@ -149,6 +139,7 @@ export default {
     backCourse(courseId, studentId) {
       back(courseId, studentId).then(() => {
         this.$message("退课成功!")
+        this.getPage()
       })
     },
     loadDialog(row) {
@@ -184,7 +175,8 @@ export default {
       })
     },
     exportExcel(){
-      getStudentInfoExcel(this.courseId)
+      window.location.href="http://localhost:8080/statistic/getStudentInfoExcel/"+this.courseId
+      //getStudentInfoExcel(this.courseId)
     }
   }
 }

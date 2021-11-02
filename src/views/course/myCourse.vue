@@ -181,7 +181,6 @@ export default {
   methods: {
     getPage() {
       this.current = 1
-      this.searchObj = {}
       this.fetchData(this.$store.state.user.teacherId)
     },
     fetchData(teacherId) {

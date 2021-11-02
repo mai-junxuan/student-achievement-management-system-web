@@ -52,19 +52,21 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
-    }]
-  },
-  {
-    path: '/',
-    name: 'StudentData',
-    component: Layout,
-    children: [{
-      path: 'studentData/:courseId',
-      component: () => import('@/views/course/studentData'),
-      meta: {title: '课程学生 ', noCache: true},
-      hidden: true
-    }],
+      meta: {title: '首页', icon: 'dashboard'}
+    },
+      {
+        path: 'studentData/:courseId',
+        component: () => import('@/views/course/studentData'),
+        meta: {title: '课程学生 ', noCache: true},
+        hidden: true
+      },
+      {
+        path: 'myInfo/:id',
+        component: () => import('@/views/myInfo'),
+        meta: {title: '我的信息 ', noCache: true},
+        hidden: true
+      }
+    ]
   },
   // 404 page must be placed at the end !!!
   {path: '*', redirect: '/404', hidden: true}
@@ -131,7 +133,7 @@ export const asyncRoutes = [
     path: '/myCourse',
     component: Layout,
     name: 'majorManage',
-    meta: {title: '我的课程', icon: 'course',roles: ['TEACHER']},
+    meta: {title: '我的课程', icon: 'course', roles: ['TEACHER']},
     children: [
       {
         path: 'list',

@@ -51,8 +51,8 @@
       <el-table-column prop="courseId" label="课程号" width="160"/>
       <el-table-column prop="name" label="课程名" width="160"/>
       <el-table-column prop="collegeName" label="所属学院" width="160"/>
-      <el-table-column prop="typeName" label="类型"/>
-      <el-table-column prop="theoreticalHours" label="理论学时"/>
+      <el-table-column prop="typeName" label="类型" width="80"/>
+      <el-table-column prop="theoreticalHours" label="理论学时" width="80"/>
       <el-table-column prop="practicalHours" label="实践学时" width="80"/>
       <el-table-column prop="regularRatio" label="平时成绩比例" width="80"/>
       <el-table-column prop="endtermRatio" label="期末成绩比例" width="80"/>
@@ -63,7 +63,7 @@
       </el-table-column>
       <el-table-column prop="managerTeacher.name" label="主管老师" width="80"/>
       <el-table-column prop="credit" label="学分" width="70"/>
-      <el-table-column label="操作" width="200" align="center">
+      <el-table-column label="操作" width="250" align="center">
         <template slot-scope="scope">
           <router-link :to="'/studentData/' + scope.row.courseId">
             <el-button type="primary" size="mini">查看学生</el-button>
@@ -185,11 +185,11 @@ export default {
   },
   created() {
     this.getPage()
+    this.getType()
   },
   methods: {
     getPage() {
       this.current = 1
-      this.searchObj = {}
       this.fetchData(this.current, this.size, this.searchObj)
     },
     fetchData(current, size, queryObj) {
@@ -248,7 +248,6 @@ export default {
     updateCourser(id) {
       this.getCollege()
       this.getGroup()
-      this.getType()
       courseApi.getById(id).then((response) => {
         this.courseInfo = response.data;
         this.courseInfo.managerTeacherName=[this.courseInfo.managerTeacher.collegeId,this.courseInfo.managerTeacher.teacherId]
