@@ -1,6 +1,9 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">你好：{{ name }}</div>
+    <div class="dashboard-text">你好：{{ name }}
+      <br>
+      温馨提示：初次登录请尽快修改密码
+    </div>
   </div>
 </template>
 
