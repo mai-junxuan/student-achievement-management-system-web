@@ -161,6 +161,7 @@ export default {
     },
     resetData() {
       this.searchObj = {}
+      this.major=[]
     },
     loadDialog() {
       this.dialogVisible = true

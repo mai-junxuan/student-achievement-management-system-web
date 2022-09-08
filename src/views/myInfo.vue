@@ -84,6 +84,8 @@ export default {
         this.$message("修改成功")
         this.dialogVisible=false
         this.password={}
+        this.$store.dispatch('user/logout')
+        this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       })
     }
   }

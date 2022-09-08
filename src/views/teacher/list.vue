@@ -65,7 +65,7 @@
       <el-table-column label="操作" width="150" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="updateTeacher(scope.row.teacherId)">修改</el-button>
-          <el-button type="danger" size="mini" @click="deleteTeacher(scope.row.teacherId)">删除</el-button>
+          <el-button v-if="scope.row.teacherId!==$store.state.user.teacherId" type="danger" size="mini" @click="deleteTeacher(scope.row.teacherId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,7 +82,7 @@
     />
 
 
-    <el-dialog title="课程信息" :visible.sync="dialogVisible">
+    <el-dialog title="教师信息" :visible.sync="dialogVisible">
       <el-form ref="elForm" :model="teacherInfo" size="medium" label-width="100px">
         <el-form-item label="工号" prop="teacherId">
           <el-input v-model="teacherInfo.teacherId" placeholder="请输入工号" clearable :style="{width: '100%'}">
@@ -111,6 +111,12 @@
         <el-form-item label="生日" prop="birth">
           <el-date-picker v-model="teacherInfo.birth" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
                           :style="{width: '100%'}" placeholder="请选择日期生日" clearable></el-date-picker>
+        </el-form-item>
+        <el-form-item label="电话" prop="phone">
+          <el-input v-model="teacherInfo.phone" placeholder="" clearable :style="{width: '100%'}"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="teacherInfo.email" placeholder="" clearable :style="{width: '100%'}"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="teacherInfo.remark" placeholder="请输入备注" clearable :style="{width: '100%'}">
@@ -159,6 +165,7 @@ export default {
       this.listLoading = true
       teacherApi.getTeacherPage(current, size, queryObj).then(response => {
         this.teacherList = response.data.records
+        this.total=response.data.total
         this.listLoading = false
       })
     },

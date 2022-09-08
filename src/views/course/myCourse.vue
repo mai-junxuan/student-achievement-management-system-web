@@ -95,7 +95,7 @@
           <el-input v-model="courseInfo.name"  :style="{width: '100%'}" disabled></el-input>
         </el-form-item>
         <el-form-item label="学院" prop="major">
-          <el-select clearable v-model="courseInfo.collegeId" placeholder="所属学院" class="v-select patient-select">
+          <el-select clearable v-model="courseInfo.collegeId" placeholder="所属学院" class="v-select patient-select" disabled>
             <el-option
               v-for="item in collegeList"
               :key="item.collegeId"
@@ -111,7 +111,7 @@
           <el-input v-model="courseInfo.theoreticalHours"
                     :style="{width: '100%'}" disabled></el-input>
         </el-form-item>
-        <el-form-item label="理论学时" prop="birth">
+        <el-form-item label="实践学时" prop="birth">
           <el-input v-model="courseInfo.practicalHours"
                     :style="{width: '100%'}" disabled></el-input>
         </el-form-item>
@@ -218,7 +218,6 @@ export default {
     },
     saveCourse() {
       console.log(this.courseInfo)
-
       courseApi.saveOrUpdate(this.courseInfo).then(() => {
         this.$message({
           type: "success",

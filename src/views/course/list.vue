@@ -119,7 +119,7 @@
           <el-input v-model="courseInfo.theoreticalHours" placeholder="请输入理论学时" clearable
                     :style="{width: '100%'}"></el-input>
         </el-form-item>
-        <el-form-item label="理论学时" prop="birth">
+        <el-form-item label="实践学时" prop="birth">
           <el-input v-model="courseInfo.practicalHours" placeholder="请输入实践学时" clearable
                     :style="{width: '100%'}"></el-input>
         </el-form-item>
@@ -222,6 +222,8 @@ export default {
       this.searchObj = {}
     },
     loadDialog() {
+      this.getGroup()
+      this.getCollege()
       this.dialogVisible = true
     },
     saveCourse() {
@@ -246,8 +248,7 @@ export default {
       })
     },
     updateCourser(id) {
-      this.getCollege()
-      this.getGroup()
+
       courseApi.getById(id).then((response) => {
         this.courseInfo = response.data;
         this.courseInfo.managerTeacherName=[this.courseInfo.managerTeacher.collegeId,this.courseInfo.managerTeacher.teacherId]
